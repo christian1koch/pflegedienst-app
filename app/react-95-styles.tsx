@@ -2,9 +2,9 @@
 import { createGlobalStyle, ThemeProvider } from "styled-components";
 import { styleReset } from "react95";
 import original from "react95/dist/themes/original";
+import StyledComponentsRegistry from "./styled-components-registry";
 
-export function React95Styles({ children }: { children: React.ReactNode }) {
-  const GlobalStyles = createGlobalStyle`
+const GlobalStyles = createGlobalStyle`
     ${styleReset}
     @font-face {
         font-family: 'ms_sans_serif';
@@ -22,10 +22,13 @@ export function React95Styles({ children }: { children: React.ReactNode }) {
         font-family: 'ms_sans_serif';
     }
     `;
+export function React95Styles({ children }: { children: React.ReactNode }) {
   return (
     <>
-      <GlobalStyles />
-      <ThemeProvider theme={original}>{children}</ThemeProvider>
+      <StyledComponentsRegistry>
+        <GlobalStyles />
+        <ThemeProvider theme={original}>{children}</ThemeProvider>
+      </StyledComponentsRegistry>
     </>
   );
 }

@@ -1,2 +1,41 @@
 /** @type {import('tailwindcss').Config} */
-module.exports = {};
+module.exports = {
+  content: ["./app/**/*.{js,ts,jsx,tsx}"],
+  theme: {
+    extend: {
+      colors: {
+        header: "#060084",
+        "header-text": "#fefefe",
+        "header-not-active": "#7f787f",
+        "header-not-active-text": "#c6c6c6",
+        hover: "#060084",
+        anchor: "#1034a6",
+        "anchor-visited": "#440381",
+        "border-dark": "#848584",
+        "border-darkest": "#0a0a0a",
+        "border-light": "#dfdfdf",
+        "border-lightest": "#fefefe",
+        canvas: "#ffffff",
+        "canvas-text": "#0a0a0a",
+        "canvas-text-disabled": "#848584",
+        "canvas-text-disabled-shadow": "#fefefe",
+        "canvas-text-invert": "#fefefe",
+        checkmark: "#0a0a0a",
+        "checkmark-disabled": "#848584",
+        "desktop-background": "#008080",
+        "flat-dark": "#9e9e9e",
+        "flat-light": "#d8d8d8",
+        "focus-secondary": "#fefe03",
+        material: "#c6c6c6",
+        "material-dark": "#9a9e9c",
+        "material-text": "#0a0a0a",
+        "material-text-disabled": "#848584",
+        "material-text-disabled-shadow": "#fefefe",
+        "material-text-invert": "#fefefe",
+        progress: "#060084",
+        tooltip: "#fefbcc",
+      },
+    },
+  },
+  plugins: [],
+};

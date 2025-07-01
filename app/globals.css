@@ -1,5 +1,6 @@
 @import "tailwindcss/preflight";
 @import "tailwindcss/utilities";
+@import "tailwindcss";
 
 @font-face {
   font-family: "SerenityOS-Emoji";
@@ -9,4 +10,37 @@
 
 .emoji {
   font-family: "SerenityOS-Emoji", system-ui, sans-serif;
+}
+
+@theme {
+  --color-anchor: #1034a6;
+  --color-anchor-visited: #440381;
+  --color-border-dark: #848584;
+  --color-border-darkest: #0a0a0a;
+  --color-border-light: #dfdfdf;
+  --color-border-lightest: #fefefe;
+  --color-canvas: #ffffff;
+  --color-canvas-text: #0a0a0a;
+  --color-canvas-text-disabled: #848584;
+  --color-canvas-text-disabled-shadow: #fefefe;
+  --color-canvas-text-invert: #fefefe;
+  --color-checkmark: #0a0a0a;
+  --color-checkmark-disabled: #848584;
+  --color-desktop-background: #008080;
+  --color-flat-dark: #9e9e9e;
+  --color-flat-light: #d8d8d8;
+  --color-focus-secondary: #fefe03;
+  --color-header-background: #060084;
+  --color-header-not-active-background: #7f787f;
+  --color-header-not-active-text: #c6c6c6;
+  --color-header-text: #fefefe;
+  --color-hover-background: #060084;
+  --color-material: #c6c6c6;
+  --color-material-dark: #9a9e9c;
+  --color-material-text: #0a0a0a;
+  --color-material-text-disabled: #848584;
+  --color-material-text-disabled-shadow: #fefefe;
+  --color-material-text-invert: #fefefe;
+  --color-progress: #060084;
+  --color-tooltip: #fefbcc;
 }
