@@ -1,15 +1,24 @@
-import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import type { Metadata } from "next";
+import React from "react";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
+import localFont from "next/font/local";
+import { React95Styles } from "./react-95-styles";
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+const msSansSerif = localFont({
+  src: [
+    {
+      path: "./../public/ms_sans_serif.woff2",
+      weight: "400",
+      style: "normal",
+    },
+    {
+      path: "./../public/ms_sans_serif.woff2",
+      weight: "700",
+      style: "normal",
+    },
+  ],
+  variable: "--font-ms-sans-serif",
 });
 
 export const metadata: Metadata = {
@@ -24,10 +33,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        {children}
+      <body className={`${msSansSerif.variable}`}>
+        <React95Styles>{children}</React95Styles>
       </body>
     </html>
   );
