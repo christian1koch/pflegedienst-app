@@ -5,10 +5,12 @@ import { Patient } from "@/lib/types/types";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
+import { PatientMedikamentWindow } from "./medicaments-info";
 
 export default function PatientInfo({ patient }: { patient: Patient }) {
   const [notiz, setNotiz] = useState(patient.notiz);
   const [isEditing, setIsEditing] = useState(false);
+  const [showMedikamente, setShowMedikamente] = useState(false);
 
   const handleSave = async () => {
     setIsEditing(false);
@@ -74,13 +76,16 @@ export default function PatientInfo({ patient }: { patient: Patient }) {
         </Frame>
       </div>
       <PatientPicture patient={patient} />
-      <div className="flex flex-row gap-2">
-        <Button>
-          Medikamente <span className="emoji">💊</span>
-        </Button>
-        <Button>
-          Behandlungen <span className="emoji">🩻</span>
-        </Button>
+      <div className="flex flex-col items-center gap-2">
+        <div className="flex flex-row gap-2">
+          <Button onClick={() => setShowMedikamente(!showMedikamente)}>
+            Medikamente <span className="emoji">💊</span>
+          </Button>
+          <Button>
+            Behandlungen <span className="emoji">🩻</span>
+          </Button>
+        </div>
+        {showMedikamente && <PatientMedikamentWindow patient={patient} />}
       </div>
     </div>
   );

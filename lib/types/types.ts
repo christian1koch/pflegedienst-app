@@ -13,3 +13,16 @@ export interface Pflegekraft {
   id: number;
   name: string;
 }
+
+export interface Medikament {
+  id: number;
+  name: string;
+}
+
+export interface PatientenMedikament {
+  patienten_id: number;
+  id: number;
+  name: string;
+  dosis: string;
+  einnahmezeit: Date; // DATE as string
+}
