@@ -6,6 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import { PatientMedikamentWindow } from "./medicaments-info";
+import { getGeschlecht } from "@/lib/helpers";
 
 export default function PatientInfo({ patient }: { patient: Patient }) {
   const [notiz, setNotiz] = useState(patient.notiz);
@@ -24,16 +25,17 @@ export default function PatientInfo({ patient }: { patient: Patient }) {
   };
 
   return (
-    <div className="flex w-full justify-between">
+    <div className="flex w-full gap-2">
       <div>
         <WindowHeader>
           Patienten Informationen <span className="emoji">ℹ️</span>
         </WindowHeader>
         <Frame variant="well" className="h-fit p-5">
           <div className="flex h-full flex-col">
+            <PatientPicture patient={patient} />
             <p>Patient: {patient.name}</p>
             <p>Alter: {patient.alter}</p>
-            <p>Gewicht: {patient.gewicht}</p>
+            <p>Gewicht: {patient.gewicht}kg</p>
             <p>
               Addresse:{" "}
               <Link
@@ -44,7 +46,7 @@ export default function PatientInfo({ patient }: { patient: Patient }) {
                 {patient.addresse}
               </Link>
             </p>
-            <p>Geschlecht: {patient.geschlecht}</p>
+            <p>Geschlecht: {getGeschlecht(patient.geschlecht)}</p>
             <div className="flex flex-col">
               <WindowHeader className="!bg-yellow-500">
                 Patienten Notiz <span className="emoji">📝</span>
@@ -75,14 +77,11 @@ export default function PatientInfo({ patient }: { patient: Patient }) {
           </div>
         </Frame>
       </div>
-      <PatientPicture patient={patient} />
-      <div className="flex flex-col items-center gap-2">
+
+      <div className="flex flex-col gap-2">
         <div className="flex flex-row gap-2">
           <Button onClick={() => setShowMedikamente(!showMedikamente)}>
             Medikamente <span className="emoji">💊</span>
-          </Button>
-          <Button>
-            Behandlungen <span className="emoji">🩻</span>
           </Button>
         </div>
         {showMedikamente && <PatientMedikamentWindow patient={patient} />}
@@ -93,11 +92,14 @@ export default function PatientInfo({ patient }: { patient: Patient }) {
 
 const PatientPicture = ({ patient }: { patient: Patient }) => {
   return (
-    <Frame shadow>
+    <Frame
+      shadow
+      className="flex h-52 w-60 items-center justify-center self-center"
+    >
       {patient.geschlecht === "f" ? (
-        <Image alt="old person" src="/old-woman.jpg" width={400} height={600} />
+        <Image alt="old person" src="/old-woman.jpg" fill />
       ) : (
-        <Image alt="old person" src="/old-man.jpg" width={400} height={600} />
+        <Image alt="old person" src="/old-man.jpg" fill />
       )}
     </Frame>
   );

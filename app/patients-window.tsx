@@ -1,4 +1,5 @@
 "use client";
+import { getGeschlecht } from "@/lib/helpers";
 import { Patient } from "@/lib/types/types";
 import Link from "next/link";
 import React, { useState } from "react";
@@ -19,7 +20,7 @@ import {
 export default function PatientsWindow({ patients }: { patients: Patient[] }) {
   return (
     <Window className="h-full w-full">
-      <WindowHeader>Your Patients</WindowHeader>
+      <WindowHeader>Deine Patienten</WindowHeader>
       <WindowContent className="flex h-full w-full flex-col justify-center align-middle">
         <PatientTable patients={patients} />
       </WindowContent>
@@ -69,7 +70,7 @@ function PatientTable({ patients }: { patients: Patient[] }) {
                 <TableDataCell>{p.name}</TableDataCell>
 
                 <TableDataCell>{p.alter}</TableDataCell>
-                <TableDataCell>{p.geschlecht}</TableDataCell>
+                <TableDataCell>{getGeschlecht(p.geschlecht)}</TableDataCell>
               </TableRow>
             ))}
           </TableBody>
