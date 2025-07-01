@@ -1,4 +1,5 @@
 "use client";
+import { Patient } from "@/lib/types/types";
 import Link from "next/link";
 import React, { useState } from "react";
 import {
@@ -15,60 +16,21 @@ import {
   Button,
 } from "react95";
 
-const mockPatients = [
-  {
-    id: 1,
-    name: "Anna Müller",
-    alter: 82,
-    gewicht: 65.5,
-    addresse: "Berliner Str. 12, 10115 Berlin",
-    geschlecht: "f",
-    pflegekraft_id: 1,
-  },
-  {
-    id: 2,
-    name: "Max Mustermann",
-    alter: 75,
-    gewicht: 80.2,
-    addresse: "Hauptstr. 5, 12345 Hamburg",
-    geschlecht: "m",
-    pflegekraft_id: 2,
-  },
-  {
-    id: 3,
-    name: "Dieter Schmidt",
-    alter: 90,
-    gewicht: 70.0,
-    addresse: "Marktplatz 1, 90402 Nürnberg",
-    geschlecht: "m",
-    pflegekraft_id: 1,
-  },
-  {
-    id: 4,
-    name: "Julia Becker",
-    alter: 68,
-    gewicht: 55.3,
-    addresse: "Bahnhofstr. 8, 50667 Köln",
-    geschlecht: "f",
-    pflegekraft_id: 3,
-  },
-];
-
-export default function SearchablePatientTable() {
+export default function PatientsWindow({ patients }: { patients: Patient[] }) {
   return (
     <Window className="h-full w-full">
       <WindowHeader>Your Patients</WindowHeader>
       <WindowContent className="flex h-full w-full flex-col justify-center align-middle">
-        <PatientTable />
+        <PatientTable patients={patients} />
       </WindowContent>
     </Window>
   );
 }
 
-function PatientTable() {
+function PatientTable({ patients }: { patients: Patient[] }) {
   const [search, setSearch] = useState("");
 
-  const filtered = mockPatients.filter(
+  const filtered = patients.filter(
     (p) =>
       p.name.toLowerCase().includes(search.toLowerCase()) ||
       p.addresse.toLowerCase().includes(search.toLowerCase()) ||

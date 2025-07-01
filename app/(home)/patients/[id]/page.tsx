@@ -1,44 +1,7 @@
+import { getPatientById } from "@/lib/db/db";
 import { Button, Frame, TextInput, WindowHeader } from "@/lib/react-95";
 import Image from "next/image";
 
-const mockPatients = [
-  {
-    id: 1,
-    name: "Anna Müller",
-    alter: 82,
-    gewicht: 65.5,
-    addresse: "Berliner Str. 12, 10115 Berlin",
-    geschlecht: "f",
-    pflegekraft_id: 1,
-  },
-  {
-    id: 2,
-    name: "Max Mustermann",
-    alter: 75,
-    gewicht: 80.2,
-    addresse: "Hauptstr. 5, 12345 Hamburg",
-    geschlecht: "m",
-    pflegekraft_id: 2,
-  },
-  {
-    id: 3,
-    name: "Dieter Schmidt",
-    alter: 90,
-    gewicht: 70.0,
-    addresse: "Marktplatz 1, 90402 Nürnberg",
-    geschlecht: "m",
-    pflegekraft_id: 1,
-  },
-  {
-    id: 4,
-    name: "Julia Becker",
-    alter: 68,
-    gewicht: 55.3,
-    addresse: "Bahnhofstr. 8, 50667 Köln",
-    geschlecht: "f",
-    pflegekraft_id: 3,
-  },
-];
 export default async function Page({
   params,
 }: {
@@ -46,7 +9,7 @@ export default async function Page({
 }) {
   const { id } = await params;
   const patientId = Number(id);
-  const patient = mockPatients.find((p) => p.id === patientId);
+  const patient = await getPatientById(patientId);
   if (!patient) {
     return null;
   }
@@ -69,8 +32,7 @@ export default async function Page({
               </WindowHeader>
               <TextInput
                 variant="flat"
-                value="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua."
+                value={patient.notiz || ""}
                 multiline
                 rows={5}
                 disabled
@@ -87,10 +49,10 @@ export default async function Page({
       </Frame>
       <div className="flex flex-row gap-2">
         <Button>
-          Patienten Mediakemnte <span className="emoji">💊</span>
+          Medikamente <span className="emoji">💊</span>
         </Button>
         <Button>
-          Patienten Behandlungen <span className="emoji">🩻</span>
+          Behandlungen <span className="emoji">🩻</span>
         </Button>
       </div>
     </div>

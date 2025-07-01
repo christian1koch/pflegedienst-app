@@ -1,5 +1,7 @@
 import PatientsWindow from "@/app/patients-window";
+import { getPatientsByPflegekraftId } from "@/lib/db/db";
 
-export default function Patients() {
-  return <PatientsWindow />;
+export default async function Patients() {
+  const patients = await getPatientsByPflegekraftId(5);
+  return <PatientsWindow patients={patients} />;
 }
