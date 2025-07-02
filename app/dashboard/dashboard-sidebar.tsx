@@ -1,3 +1,4 @@
+"use client";
 import {
   SidebarContent,
   SidebarGroup,
@@ -9,6 +10,7 @@ import {
   SidebarGroupLabel,
 } from "@/components/ui/sidebar";
 import { Car, Users, Calendar } from "lucide-react";
+import { usePathname } from "next/navigation";
 
 const items = [
   {
@@ -29,6 +31,7 @@ const items = [
 ];
 
 export default function DashboardSidebar() {
+  const pathname = usePathname();
   return (
     <Sidebar>
       <SidebarContent>
@@ -36,16 +39,25 @@ export default function DashboardSidebar() {
           <SidebarGroupLabel>Pflegekraft </SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {items.map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild>
-                    <a href={item.url}>
-                      <item.icon />
-                      <span>{item.title}</span>
-                    </a>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
+              {items.map((item) => {
+                const isActive = pathname === item.url;
+                return (
+                  <SidebarMenuItem
+                    key={item.title}
+                    className={isActive ? "bg-muted rounded-md font-bold" : ""}
+                  >
+                    <SidebarMenuButton asChild>
+                      <a
+                        href={item.url}
+                        className={isActive ? "text-primary" : undefined}
+                      >
+                        <item.icon />
+                        <span>{item.title}</span>
+                      </a>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                );
+              })}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
