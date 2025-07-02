@@ -3,11 +3,11 @@ import {
   BreadcrumbList,
   BreadcrumbItem,
   BreadcrumbLink,
-  BreadcrumbSeparator,
   BreadcrumbPage,
 } from "@/components/ui/breadcrumb";
 
 interface BreadcrumbsProps {
+  className?: string;
   items: {
     title: string;
     url: string;
@@ -15,9 +15,13 @@ interface BreadcrumbsProps {
   currentPage: string;
 }
 
-export default function Breadcrumbs({ items, currentPage }: BreadcrumbsProps) {
+export default function Breadcrumbs({
+  items,
+  currentPage,
+  className,
+}: BreadcrumbsProps) {
   return (
-    <Breadcrumb>
+    <Breadcrumb className={className}>
       <BreadcrumbList>
         {items.map((item) => (
           <BreadcrumbItem key={item.title}>

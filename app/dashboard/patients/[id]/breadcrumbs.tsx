@@ -4,11 +4,16 @@ import { Breadcrumb } from "@/components/ui/breadcrumb";
 interface BreadcrumbsProps {
   items: { title: string; url: string }[];
   currentPage: string;
+  className?: string;
 }
 
-const Breadcrumbs: FC<BreadcrumbsProps> = ({ items, currentPage }) => {
+const Breadcrumbs: FC<BreadcrumbsProps> = ({
+  items,
+  currentPage,
+  className,
+}) => {
   return (
-    <Breadcrumb className="mt-4 mb-6">
+    <Breadcrumb className={className}>
       <ol className="flex items-center space-x-2">
         {items.map((item) => (
           <li key={item.url} className="flex items-center">

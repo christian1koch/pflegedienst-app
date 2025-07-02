@@ -1,5 +1,9 @@
 import { getPatientById } from "@/lib/db/db";
 import PatientInfo from "./patient-info";
+import { PatientMedikamentWindow } from "./medicaments-info";
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import Breadcrumbs from "./breadcrumbs";
 
 export default async function Page({ params }: { params: { id: string } }) {
   const patientId = Number(params.id);
@@ -7,5 +11,29 @@ export default async function Page({ params }: { params: { id: string } }) {
   if (!patient) {
     return null;
   }
-  return <PatientInfo patient={patient} />;
+  return (
+    <div className="flex h-full flex-col items-center gap-4">
+      <Breadcrumbs
+        className="self-start text-sm"
+        items={[
+          { title: "Home", url: "/dashboard" },
+          { title: "Patienten", url: "/dashboard/patients" },
+        ]}
+        currentPage={patient.name}
+      />
+      <div className="flex h-full flex-row items-start gap-4">
+        <PatientInfo patient={patient} />
+        <div className="m-auto mt-6">
+          <Dialog>
+            <DialogTrigger asChild>
+              <Button variant="outline">Medikamente anzeigen</Button>
+            </DialogTrigger>
+            <DialogContent className="w-full max-w-2xl">
+              <PatientMedikamentWindow patient={patient} />
+            </DialogContent>
+          </Dialog>
+        </div>
+      </div>
+    </div>
+  );
 }

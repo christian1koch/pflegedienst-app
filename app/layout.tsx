@@ -18,7 +18,8 @@ export default function RootLayout({
     <html lang="en" className="dark">
       <body>
         <SidebarProvider>
-          <SidebarTrigger /> {children}
+          <SidebarTrigger />
+          {children}
         </SidebarProvider>
       </body>
     </html>
