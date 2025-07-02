@@ -5,6 +5,7 @@ import {
   PatientenMedikament,
   Pflegekraft,
   Wagen,
+  PflegekraftVerfuerbarkeiten,
 } from "../types/types";
 import { revalidatePath } from "next/cache";
 
@@ -96,4 +97,12 @@ export async function finishWagenBooking(
   const sql = neon(process.env.DATABASE_URL!);
   await sql`UPDATE WAGEN_BUCHUNGEN SET ausgabe_datum = CURRENT_DATE WHERE wagen_kz = ${kennzeichen} AND pflegekraft_id = ${pflegekraftId} AND ausgabe_datum IS NULL`;
   revalidatePath("/dashboard/wagen");
+}
+
+// Get all verfuerbarkeiten for a pflegekraft
+export async function getVerfuerbarkeitenByPflegekraft(pflegekraftId: number) {
+  const sql = neon(process.env.DATABASE_URL!);
+  const response = await sql`
+    SELECT * FROM PFLEGEKRAFT_VERFUERBARKEITEN WHERE pflegekraft_id = ${pflegekraftId} ORDER BY wochentag`;
+  return response as PflegekraftVerfuerbarkeiten[];
 }

@@ -31,3 +31,10 @@ export interface Wagen {
   model: string;
   sitzplaetze: number;
 }
+
+export interface PflegekraftVerfuerbarkeiten {
+  pflegekraft_id: number;
+  wochentag: string;
+  startzeit: string; // TIME as string
+  endzeit: string; // TIME as string
+}

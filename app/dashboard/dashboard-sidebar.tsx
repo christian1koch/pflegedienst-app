@@ -8,7 +8,7 @@ import {
   SidebarGroupContent,
   SidebarGroupLabel,
 } from "@/components/ui/sidebar";
-import { Car, Users } from "lucide-react";
+import { Car, Users, Calendar } from "lucide-react";
 
 const items = [
   {
@@ -20,6 +20,11 @@ const items = [
     title: "Wagen Buchen",
     url: "/dashboard/wagen",
     icon: Car,
+  },
+  {
+    title: "Verfügbarkeiten",
+    url: "/dashboard/verfuerbarkeiten",
+    icon: Calendar,
   },
 ];
 
