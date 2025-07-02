@@ -1,6 +1,11 @@
 "use server";
 import { neon } from "@neondatabase/serverless";
-import { Patient, PatientenMedikament, Pflegekraft } from "../types/types";
+import {
+  Patient,
+  PatientenMedikament,
+  Pflegekraft,
+  Wagen,
+} from "../types/types";
 import { revalidatePath } from "next/cache";
 
 export async function getPatients() {
@@ -49,4 +54,26 @@ export async function getPatientMedikamente(patientId: number) {
 export async function markMedikamentAsToday(medikamentId: number) {
   const sql = neon(process.env.DATABASE_URL!);
   await sql`UPDATE patienten_medikamente SET einnahmezeit = CURRENT_DATE WHERE medikament_id = ${medikamentId}`;
+}
+
+export async function getAvailableWagen() {
+  const sql = neon(process.env.DATABASE_URL!);
+  const response = await sql`
+  SELECT WAGEN.* 
+  FROM WAGEN, WAGEN_BUCHUNGEN 
+  WHERE WAGEN.kennzeichen = WAGEN_BUCHUNGEN.wagen_kz 
+  AND WAGEN_BUCHUNGEN.ausgabe_datum IS NOT NULL`;
+  return response as Wagen[];
+}
+
+// Set ausleih_datum to current date
+// Set ausgabe_datum to null
+
+export async function bookWagen(kennzeichen: string, pflegekraftId: number) {
+  const sql = neon(process.env.DATABASE_URL!);
+  await sql`UPDATE WAGEN_BUCHUNGEN
+  SET ausleih_datum = CURRENT_DATE, ausgabe_datum = NULL
+  WHERE wagen_kz = ${kennzeichen}
+  AND pflegekraft_id = ${pflegekraftId}
+  `;
 }

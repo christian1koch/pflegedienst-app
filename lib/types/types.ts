@@ -26,3 +26,8 @@ export interface PatientenMedikament {
   dosis: string;
   einnahmezeit: Date; // DATE as string
 }
+export interface Wagen {
+  kennzeichen: string;
+  model: string;
+  sitzplaetze: number;
+}
