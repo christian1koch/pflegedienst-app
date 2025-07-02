@@ -1,8 +1,17 @@
 import { getVerfuerbarkeitenByPflegekraft } from "@/lib/db/db";
 import { PflegekraftVerfuerbarkeiten } from "@/lib/types/types";
+import Breadcrumbs from "../breadcrumbs";
+import {
+  Table,
+  TableHeader,
+  TableBody,
+  TableRow,
+  TableHead,
+  TableCell,
+  TableCaption,
+} from "@/components/ui/table";
 
 function getCurrentWeekday(): string {
-  // JS: 0=Sunday, 1=Monday, ... 6=Saturday; DB: Montag, Dienstag, ...
   const days = [
     "Sonntag",
     "Montag",
@@ -31,37 +40,47 @@ export default async function VerfuerbarkeitenPage() {
   const inWork = isNowInWork(verfuerbarkeiten);
 
   return (
-    <div className="mx-auto mt-8 max-w-2xl">
-      <h1 className="mb-4 text-center text-3xl font-bold">Verfügbarkeiten</h1>
-      <div className="mb-4 text-center">
-        {inWork ? (
-          <span className="font-semibold text-green-600">
-            Pflegekraft 5 ist aktuell im Dienst.
-          </span>
-        ) : (
-          <span className="font-semibold text-red-600">
-            Pflegekraft 5 ist aktuell nicht im Dienst.
-          </span>
-        )}
+    <div className="mx-auto mt-8 w-full">
+      <Breadcrumbs
+        items={[{ title: "Dashboard", url: "/dashboard" }]}
+        currentPage="Verfügbarkeiten"
+        className="self-start"
+      />
+      <div className="mx-auto max-w-2xl">
+        <h1 className="mb-4 text-center text-3xl font-bold">Verfügbarkeiten</h1>
+        <div className="mb-4 text-center">
+          {inWork ? (
+            <span className="font-semibold text-green-600">
+              Du bist aktuell im Dienst.
+            </span>
+          ) : (
+            <span className="font-semibold text-red-600">
+              Du bist aktuell nicht im Dienst.
+            </span>
+          )}
+        </div>
+        <div className="overflow-x-auto rounded-md border">
+          <Table>
+            <TableCaption>Deine Verfügbarkeiten</TableCaption>
+            <TableHeader>
+              <TableRow>
+                <TableHead>Wochentag</TableHead>
+                <TableHead>Startzeit</TableHead>
+                <TableHead>Endzeit</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {verfuerbarkeiten.map((v, i) => (
+                <TableRow key={i}>
+                  <TableCell>{v.wochentag}</TableCell>
+                  <TableCell>{v.startzeit}</TableCell>
+                  <TableCell>{v.endzeit}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </div>
       </div>
-      <table className="w-full rounded-md border">
-        <thead>
-          <tr className="bg-gray-100">
-            <th className="border p-2">Wochentag</th>
-            <th className="border p-2">Startzeit</th>
-            <th className="border p-2">Endzeit</th>
-          </tr>
-        </thead>
-        <tbody>
-          {verfuerbarkeiten.map((v, i) => (
-            <tr key={i}>
-              <td className="border p-2">{v.wochentag}</td>
-              <td className="border p-2">{v.startzeit}</td>
-              <td className="border p-2">{v.endzeit}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
     </div>
   );
 }
