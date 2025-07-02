@@ -12,7 +12,7 @@ export default async function Page({ params }: { params: { id: string } }) {
     return null;
   }
   return (
-    <div className="flex h-full flex-col items-center gap-4">
+    <div className="flex h-full w-full flex-col items-center gap-4">
       <Breadcrumbs
         className="self-start text-sm"
         items={[
@@ -21,12 +21,12 @@ export default async function Page({ params }: { params: { id: string } }) {
         ]}
         currentPage={patient.name}
       />
-      <div className="flex h-full flex-row items-start gap-4">
+      <div className="align-center m-auto flex h-full flex-col items-center justify-center gap-4">
         <PatientInfo patient={patient} />
         <div className="m-auto mt-6">
           <Dialog>
             <DialogTrigger asChild>
-              <Button variant="outline">Medikamente anzeigen</Button>
+              <Button variant="default">Medikamente anzeigen</Button>
             </DialogTrigger>
             <DialogContent className="w-full max-w-2xl">
               <PatientMedikamentWindow patient={patient} />
