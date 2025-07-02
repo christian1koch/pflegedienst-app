@@ -62,18 +62,28 @@ export async function getAvailableWagen() {
   SELECT WAGEN.* 
   FROM WAGEN, WAGEN_BUCHUNGEN 
   WHERE WAGEN.kennzeichen = WAGEN_BUCHUNGEN.wagen_kz 
-  AND WAGEN_BUCHUNGEN.ausgabe_datum IS NOT NULL`;
+  EXCEPT
+  SELECT WAGEN.* 
+  FROM WAGEN, WAGEN_BUCHUNGEN 
+  WHERE WAGEN.kennzeichen = WAGEN_BUCHUNGEN.wagen_kz 
+  AND WAGEN_BUCHUNGEN.ausgabe_datum IS NULL`;
   return response as Wagen[];
 }
-
-// Set ausleih_datum to current date
-// Set ausgabe_datum to null
-
+// this should be an insert into WAGEN_BUCHUNGEN
 export async function bookWagen(kennzeichen: string, pflegekraftId: number) {
   const sql = neon(process.env.DATABASE_URL!);
-  await sql`UPDATE WAGEN_BUCHUNGEN
-  SET ausleih_datum = CURRENT_DATE, ausgabe_datum = NULL
-  WHERE wagen_kz = ${kennzeichen}
-  AND pflegekraft_id = ${pflegekraftId}
-  `;
+  await sql`INSERT INTO WAGEN_BUCHUNGEN (wagen_kz, pflegekraft_id, ausleih_datum, ausgabe_datum) 
+  VALUES (${kennzeichen}, ${pflegekraftId}, CURRENT_DATE, NULL)`;
+  revalidatePath("/dashboard/wagen");
+}
+
+export async function getBookedWagen(pflegekraftId: number) {
+  const sql = neon(process.env.DATABASE_URL!);
+  const response = await sql`SELECT w.* 
+    FROM WAGEN w, WAGEN_BUCHUNGEN wb 
+    WHERE wb.pflegekraft_id = ${pflegekraftId} 
+    AND wb.ausgabe_datum IS NULL 
+    AND wb.wagen_kz = w.kennzeichen`;
+
+  return response as Wagen[];
 }

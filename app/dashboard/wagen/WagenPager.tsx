@@ -1,6 +1,5 @@
 "use client";
 import { useState } from "react";
-import dynamic from "next/dynamic";
 import {
   Pagination,
   PaginationContent,
@@ -10,10 +9,9 @@ import {
   PaginationNext,
 } from "@/components/ui/pagination";
 import { Wagen } from "@/lib/types/types";
-
-const WagenGiphyGrid = dynamic(() => import("./WagenGiphyGrid"), {
-  ssr: false,
-});
+import WagenGiphyGrid from "./WagenGiphyGrid";
+import { Button } from "@/components/ui/button";
+import { bookWagen } from "@/lib/db/db";
 
 const WAGEN_PER_PAGE = 10;
 
@@ -23,6 +21,13 @@ export default function WagenPager({ wagen }: { wagen: Wagen[] }) {
   const start = (page - 1) * WAGEN_PER_PAGE;
   const end = start + WAGEN_PER_PAGE;
   const currentWagen = wagen.slice(start, end);
+
+  const handleBookWagen = async (kennzeichen: string) => {
+    console.log("Buchen", kennzeichen);
+    await bookWagen(kennzeichen, 5);
+
+    setPage(1);
+  };
 
   return (
     <div>
@@ -37,10 +42,9 @@ export default function WagenPager({ wagen }: { wagen: Wagen[] }) {
             <WagenGiphyGrid model={w.model} />
             <p>Kennzeichen: {w.kennzeichen}</p>
             <p>Sitzplätze: {w.sitzplaetze}</p>
-            <form action="/api/wagen/book" method="POST">
-              <input type="hidden" name="kennzeichen" value={w.kennzeichen} />
-              <button type="submit">Buchen</button>
-            </form>
+            <Button onClick={() => handleBookWagen(w.kennzeichen)}>
+              Buchen
+            </Button>
           </div>
         ))}
       </div>
