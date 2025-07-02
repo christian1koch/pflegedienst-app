@@ -14,11 +14,15 @@ import {
 } from "@/components/ui/table";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import Breadcrumbs from "../breadcrumbs";
 
 export default function PatientsWindow({ patients }: { patients: Patient[] }) {
   return (
     <div className="h-full w-full">
-      <h2 className="mb-4 text-xl font-bold">Deine Patienten</h2>
+      <Breadcrumbs
+        items={[{ title: "Home", url: "/dashboard" }]}
+        currentPage="Deine Patienten"
+      />
       <PatientTable patients={patients} />
     </div>
   );
@@ -35,14 +39,14 @@ function PatientTable({ patients }: { patients: Patient[] }) {
   const [selectedPatient, setSelectedPatient] = useState<number | undefined>();
   const isButtonDisabled = selectedPatient == null;
   return (
-    <div className="flex flex-col gap-5">
+    <div className="flex w-full flex-col gap-5 rounded-md border p-4">
       <Input
         placeholder="Suche Patient..."
         value={search}
         onChange={(e) => setSearch(e.target.value)}
-        className="mb-4 max-w-md"
+        className="mb-0 max-w-md pb-0"
       />
-      <div className="overflow-x-auto rounded-md border">
+      <div className="overflow-x-auto">
         <Table>
           <TableCaption>Liste deiner Patienten</TableCaption>
           <TableHeader>
