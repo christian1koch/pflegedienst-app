@@ -4,7 +4,6 @@ import { Patient } from "@/lib/types/types";
 import { getGeschlecht } from "@/lib/helpers";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import Breadcrumbs from "../../breadcrumbs";
 import { Button } from "@/components/ui/button";
 import { updatePatientNotiz } from "@/lib/db/db";
 
