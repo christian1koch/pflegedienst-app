@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import React from "react";
 
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { Toaster } from "@/components/ui/sonner";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -21,6 +22,7 @@ export default function RootLayout({
           <SidebarTrigger />
           {children}
         </SidebarProvider>
+        <Toaster position="top-center" richColors />
       </body>
     </html>
   );

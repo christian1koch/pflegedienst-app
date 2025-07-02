@@ -22,6 +22,7 @@ import {
   TableCell,
   TableCaption,
 } from "@/components/ui/table";
+import { toast } from "sonner";
 
 const WAGEN_PER_PAGE = 5;
 
@@ -184,13 +185,23 @@ export default function WagenPager({
   const currentWagen = wagen.slice(start, end);
 
   const handleBookWagen = async (kennzeichen: string) => {
-    await bookWagen(kennzeichen, 5);
-    setPage(1);
+    try {
+      await bookWagen(kennzeichen, 5);
+      setPage(1);
+      toast.success("Wagen erfolgreich gebucht!");
+    } catch {
+      toast.error("Fehler beim Buchen des Wagens.");
+    }
   };
 
   const handleFinishWagen = async (kennzeichen: string) => {
-    await finishWagenBooking(kennzeichen, 5);
-    setPage(1);
+    try {
+      await finishWagenBooking(kennzeichen, 5);
+      setPage(1);
+      toast.success("Wagen erfolgreich zurückgegeben!");
+    } catch {
+      toast.error("Fehler beim Zurückgeben des Wagens.");
+    }
   };
 
   return (
