@@ -5,8 +5,13 @@ import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import Breadcrumbs from "./breadcrumbs";
 
-export default async function Page({ params }: { params: { id: string } }) {
-  const patientId = Number(params.id);
+export default async function Page({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const { id } = await params;
+  const patientId = Number(id);
   const patient = await getPatientById(patientId);
   if (!patient) {
     return null;
