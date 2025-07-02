@@ -73,7 +73,7 @@ export async function getAvailableWagen() {
 export async function bookWagen(kennzeichen: string, pflegekraftId: number) {
   const sql = neon(process.env.DATABASE_URL!);
   await sql`INSERT INTO WAGEN_BUCHUNGEN (wagen_kz, pflegekraft_id, ausleih_datum, ausgabe_datum) 
-  VALUES (${kennzeichen}, ${pflegekraftId}, CURRENT_DATE, NULL)`;
+  VALUES (${kennzeichen}, ${pflegekraftId}, CURRENT_TIMESTAMP, NULL)`;
   revalidatePath("/dashboard/wagen");
 }
 

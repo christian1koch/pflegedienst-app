@@ -66,7 +66,10 @@ function WagenTable({
                     Buchen
                   </Button>
                 ) : (
-                  <Button onClick={() => onFinish && onFinish(w.kennzeichen)}>
+                  <Button
+                    variant="destructive"
+                    onClick={() => onFinish && onFinish(w.kennzeichen)}
+                  >
                     Wagen zurückgeben
                   </Button>
                 )}
@@ -206,7 +209,9 @@ export default function WagenPager({
 
   return (
     <div>
-      <h1>Wagen Übersicht</h1>
+      <h1 className="scroll-m-20 text-center text-4xl font-extrabold tracking-tight text-balance">
+        Wagen Übersicht
+      </h1>
       <WagenTable
         wagen={currentWagen}
         onBook={mode === "available" ? handleBookWagen : undefined}

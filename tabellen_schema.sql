@@ -10,7 +10,8 @@ CREATE TABLE PATIENT (
     gewicht DECIMAL,
     addresse VARCHAR(100),
     geschlecht CHAR(1) check(geschlecht in ('m', 'f', 'd')),
-    pflegekraft_id INTEGER references PFLEGEKRAFT(id)
+    pflegekraft_id INTEGER references PFLEGEKRAFT(id),
+    notiz TEXT
 );
 
 CREATE TABLE MEDIKAMENT (
@@ -27,7 +28,7 @@ CREATE TABLE BEHANDLUNG (
 );
 
 CREATE TABLE WAGEN (
-    kennzeichen VARCHAR(8) PRIMARY KEY,
+    kennzeichen VARCHAR(10) PRIMARY KEY,
     model VARCHAR(50),
     sitzplaetze INTEGER
 );
@@ -49,10 +50,10 @@ CREATE TABLE PATIENTEN_BEHANDLUNG(
 );
 
 CREATE TABLE WAGEN_BUCHUNGEN(
-    wagen_kz VARCHAR(8) references WAGEN(kennzeichen),
+    wagen_kz VARCHAR(10) references WAGEN(kennzeichen),
     pflegekraft_id INTEGER references PFLEGEKRAFT(id),
-    ausleih_datum DATE,
-    ausgabe_datum DATE,
+    ausleih_datum TIMESTAMP,
+    ausgabe_datum TIMESTAMP,
     PRIMARY KEY (wagen_kz, pflegekraft_id, ausleih_datum)
 );
 
