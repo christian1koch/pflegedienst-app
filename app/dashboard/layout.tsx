@@ -8,12 +8,7 @@ export default function DashboardLayout({
   return (
     <>
       <DashboardSidebar />
-      <div className="flex h-screen w-full flex-col gap-4 p-4">
-        <nav>
-          <a href="/dashboard/wagen">Wagen</a>
-        </nav>
-        {children}
-      </div>
+      {children}
     </>
   );
 }

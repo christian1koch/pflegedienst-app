@@ -5,6 +5,7 @@ import {
   BreadcrumbLink,
   BreadcrumbPage,
 } from "@/components/ui/breadcrumb";
+import { cn } from "@/lib/utils";
 
 interface BreadcrumbsProps {
   className?: string;
@@ -21,7 +22,7 @@ export default function Breadcrumbs({
   className,
 }: BreadcrumbsProps) {
   return (
-    <Breadcrumb className={className}>
+    <Breadcrumb className={cn("my-2 border-b border-gray-200 py-2", className)}>
       <BreadcrumbList>
         {items.map((item) => (
           <BreadcrumbItem key={item.title}>

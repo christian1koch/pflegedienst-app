@@ -1,13 +1,17 @@
 import { Wagen } from "@/lib/types/types";
 import { getAvailableWagen } from "@/lib/db/db";
 import WagenGiphyGrid from "./WagenGiphyGrid";
+import Breadcrumbs from "../breadcrumbs";
 
 export default async function WagenPage() {
   const wagen: Wagen[] = await getAvailableWagen();
 
-  // Booking will be handled client-side, but fetching is server-side
   return (
     <div>
+      <Breadcrumbs
+        items={[{ title: "Dashboard", url: "/dashboard" }]}
+        currentPage="Wagen"
+      />
       <h1>Wagen Übersicht</h1>
       <div style={{ display: "flex", flexWrap: "wrap", gap: 24 }}>
         {wagen.map((w) => (
