@@ -10,6 +10,7 @@ import {
   TableCell,
   TableCaption,
 } from "@/components/ui/table";
+import { PFLEGEKRAFT_ID } from "@/lib/types/constants";
 
 function getCurrentWeekday(): string {
   const days = [
@@ -34,7 +35,7 @@ function isNowInWork(verf: PflegekraftVerfuerbarkeiten[]): boolean {
 }
 
 export default async function VerfuerbarkeitenPage() {
-  const pflegekraftId = 5;
+  const pflegekraftId = PFLEGEKRAFT_ID;
   const verfuerbarkeiten =
     await getVerfuerbarkeitenByPflegekraft(pflegekraftId);
   const inWork = isNowInWork(verfuerbarkeiten);

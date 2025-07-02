@@ -23,6 +23,7 @@ import {
   TableCaption,
 } from "@/components/ui/table";
 import { toast } from "sonner";
+import { PFLEGEKRAFT_ID } from "@/lib/types/constants";
 
 const WAGEN_PER_PAGE = 5;
 
@@ -189,7 +190,7 @@ export default function WagenPager({
 
   const handleBookWagen = async (kennzeichen: string) => {
     try {
-      await bookWagen(kennzeichen, 5);
+      await bookWagen(kennzeichen, PFLEGEKRAFT_ID);
       setPage(1);
       toast.success("Wagen erfolgreich gebucht!");
     } catch {
@@ -199,7 +200,7 @@ export default function WagenPager({
 
   const handleFinishWagen = async (kennzeichen: string) => {
     try {
-      await finishWagenBooking(kennzeichen, 5);
+      await finishWagenBooking(kennzeichen, PFLEGEKRAFT_ID);
       setPage(1);
       toast.success("Wagen erfolgreich zurückgegeben!");
     } catch {

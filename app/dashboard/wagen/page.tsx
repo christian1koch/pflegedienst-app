@@ -2,9 +2,10 @@ import { Wagen } from "@/lib/types/types";
 import { getAvailableWagen, getBookedWagen } from "@/lib/db/db";
 import WagenPagerSwitcher from "./WagenPagerSwitcher";
 import Breadcrumbs from "../breadcrumbs";
+import { PFLEGEKRAFT_ID } from "@/lib/types/constants";
 
 export default async function WagenPage() {
-  const pflegekraftId = 5;
+  const pflegekraftId = PFLEGEKRAFT_ID;
   const availableWagen: Wagen[] = await getAvailableWagen();
   const bookedWagen: Wagen[] = await getBookedWagen(pflegekraftId);
   return (
