@@ -12,7 +12,7 @@ import {
 import { Wagen } from "@/lib/types/types";
 import WagenGiphyGrid from "./WagenGiphyGrid";
 import { Button } from "@/components/ui/button";
-import { bookWagen } from "@/lib/db/db";
+import { bookWagen, finishWagenBooking } from "@/lib/db/db";
 import {
   Table,
   TableHeader,
@@ -28,9 +28,13 @@ const WAGEN_PER_PAGE = 5;
 function WagenTable({
   wagen,
   onBook,
+  onFinish,
+  mode,
 }: {
   wagen: Wagen[];
-  onBook: (kennzeichen: string) => void;
+  onBook?: (kennzeichen: string) => void;
+  onFinish?: (kennzeichen: string) => void;
+  mode: "available" | "booked";
 }) {
   return (
     <div className="mt-4 w-full overflow-x-auto rounded-md border">
@@ -41,7 +45,7 @@ function WagenTable({
             <TableHead>Model</TableHead>
             <TableHead>Kennzeichen</TableHead>
             <TableHead>Sitzplätze</TableHead>
-            <TableHead>Buchen</TableHead>
+            <TableHead>{mode === "available" ? "Buchen" : "Aktion"}</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -56,7 +60,15 @@ function WagenTable({
               <TableCell>{w.kennzeichen}</TableCell>
               <TableCell>{w.sitzplaetze}</TableCell>
               <TableCell>
-                <Button onClick={() => onBook(w.kennzeichen)}>Buchen</Button>
+                {mode === "available" ? (
+                  <Button onClick={() => onBook && onBook(w.kennzeichen)}>
+                    Buchen
+                  </Button>
+                ) : (
+                  <Button onClick={() => onFinish && onFinish(w.kennzeichen)}>
+                    Wagen zurückgeben
+                  </Button>
+                )}
               </TableCell>
             </TableRow>
           ))}
@@ -158,7 +170,13 @@ function WagenPagination({
   );
 }
 
-export default function WagenPager({ wagen }: { wagen: Wagen[] }) {
+export default function WagenPager({
+  wagen,
+  mode,
+}: {
+  wagen: Wagen[];
+  mode: "available" | "booked";
+}) {
   const [page, setPage] = useState(1);
   const totalPages = Math.ceil(wagen.length / WAGEN_PER_PAGE);
   const start = (page - 1) * WAGEN_PER_PAGE;
@@ -166,15 +184,24 @@ export default function WagenPager({ wagen }: { wagen: Wagen[] }) {
   const currentWagen = wagen.slice(start, end);
 
   const handleBookWagen = async (kennzeichen: string) => {
-    console.log("Buchen", kennzeichen);
     await bookWagen(kennzeichen, 5);
+    setPage(1);
+  };
+
+  const handleFinishWagen = async (kennzeichen: string) => {
+    await finishWagenBooking(kennzeichen, 5);
     setPage(1);
   };
 
   return (
     <div>
       <h1>Wagen Übersicht</h1>
-      <WagenTable wagen={currentWagen} onBook={handleBookWagen} />
+      <WagenTable
+        wagen={currentWagen}
+        onBook={mode === "available" ? handleBookWagen : undefined}
+        onFinish={mode === "booked" ? handleFinishWagen : undefined}
+        mode={mode}
+      />
       <WagenPagination page={page} totalPages={totalPages} setPage={setPage} />
     </div>
   );

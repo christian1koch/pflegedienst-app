@@ -87,3 +87,13 @@ export async function getBookedWagen(pflegekraftId: number) {
 
   return response as Wagen[];
 }
+
+// Set ausgabe_datum to today for the booking of this wagen and pflegekraft where ausgabe_datum is NULL
+export async function finishWagenBooking(
+  kennzeichen: string,
+  pflegekraftId: number
+) {
+  const sql = neon(process.env.DATABASE_URL!);
+  await sql`UPDATE WAGEN_BUCHUNGEN SET ausgabe_datum = CURRENT_DATE WHERE wagen_kz = ${kennzeichen} AND pflegekraft_id = ${pflegekraftId} AND ausgabe_datum IS NULL`;
+  revalidatePath("/dashboard/wagen");
+}

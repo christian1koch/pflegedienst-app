@@ -30,9 +30,9 @@ export default function WagenPagerSwitcher({
         </Button>
       </div>
       {view === "available" ? (
-        <WagenPager wagen={availableWagen} />
+        <WagenPager wagen={availableWagen} mode="available" />
       ) : (
-        <WagenPager wagen={bookedWagen} />
+        <WagenPager wagen={bookedWagen} mode="booked" />
       )}
     </div>
   );
