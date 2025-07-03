@@ -32,11 +32,13 @@ function WagenTable({
   onBook,
   onFinish,
   mode,
+  loadingKennzeichen,
 }: {
   wagen: Wagen[];
   onBook?: (kennzeichen: string) => void;
   onFinish?: (kennzeichen: string) => void;
   mode: "available" | "booked";
+  loadingKennzeichen?: string | null;
 }) {
   return (
     <div className="mt-4 w-full overflow-x-auto rounded-md border">
@@ -63,15 +65,23 @@ function WagenTable({
               <TableCell>{w.sitzplaetze}</TableCell>
               <TableCell>
                 {mode === "available" ? (
-                  <Button onClick={() => onBook && onBook(w.kennzeichen)}>
-                    Buchen
+                  <Button
+                    onClick={() => onBook && onBook(w.kennzeichen)}
+                    disabled={loadingKennzeichen === w.kennzeichen}
+                  >
+                    {loadingKennzeichen === w.kennzeichen
+                      ? "Buchen..."
+                      : "Buchen"}
                   </Button>
                 ) : (
                   <Button
                     variant="destructive"
                     onClick={() => onFinish && onFinish(w.kennzeichen)}
+                    disabled={loadingKennzeichen === w.kennzeichen}
                   >
-                    Wagen zurückgeben
+                    {loadingKennzeichen === w.kennzeichen
+                      ? "Zurückgeben..."
+                      : "Wagen zurückgeben"}
                   </Button>
                 )}
               </TableCell>
@@ -183,28 +193,37 @@ export default function WagenPager({
   mode: "available" | "booked";
 }) {
   const [page, setPage] = useState(1);
+  const [loadingKennzeichen, setLoadingKennzeichen] = useState<string | null>(
+    null
+  );
   const totalPages = Math.ceil(wagen.length / WAGEN_PER_PAGE);
   const start = (page - 1) * WAGEN_PER_PAGE;
   const end = start + WAGEN_PER_PAGE;
   const currentWagen = wagen.slice(start, end);
 
   const handleBookWagen = async (kennzeichen: string) => {
+    setLoadingKennzeichen(kennzeichen);
     try {
       await bookWagen(kennzeichen, PFLEGEKRAFT_ID);
       setPage(1);
       toast.success("Wagen erfolgreich gebucht!");
     } catch {
       toast.error("Fehler beim Buchen des Wagens.");
+    } finally {
+      setLoadingKennzeichen(null);
     }
   };
 
   const handleFinishWagen = async (kennzeichen: string) => {
+    setLoadingKennzeichen(kennzeichen);
     try {
       await finishWagenBooking(kennzeichen, PFLEGEKRAFT_ID);
       setPage(1);
       toast.success("Wagen erfolgreich zurückgegeben!");
     } catch {
       toast.error("Fehler beim Zurückgeben des Wagens.");
+    } finally {
+      setLoadingKennzeichen(null);
     }
   };
 
@@ -218,6 +237,7 @@ export default function WagenPager({
         onBook={mode === "available" ? handleBookWagen : undefined}
         onFinish={mode === "booked" ? handleFinishWagen : undefined}
         mode={mode}
+        loadingKennzeichen={loadingKennzeichen}
       />
       <WagenPagination page={page} totalPages={totalPages} setPage={setPage} />
     </div>
